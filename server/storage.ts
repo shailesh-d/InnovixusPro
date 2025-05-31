@@ -345,9 +345,11 @@ export class MemStorage implements IStorage {
 
   // Contact methods
   async getAllContactSubmissions(): Promise<ContactSubmission[]> {
-    return Array.from(this.contactSubmissions.values()).sort((a, b) => 
-      new Date(b.submittedAt || 0).getTime() - new Date(a.submittedAt || 0).getTime()
-    );
+    return Array.from(this.contactSubmissions.values()).sort((a, b) => {
+      const dateA = a.submittedAt ? new Date(a.submittedAt).getTime() : 0;
+      const dateB = b.submittedAt ? new Date(b.submittedAt).getTime() : 0;
+      return dateB - dateA;
+    });
   }
 
   async getContactSubmissionById(id: number): Promise<ContactSubmission | undefined> {
