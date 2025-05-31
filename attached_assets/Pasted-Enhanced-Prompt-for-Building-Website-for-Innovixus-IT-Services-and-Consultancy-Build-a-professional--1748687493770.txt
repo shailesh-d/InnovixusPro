@@ -1,0 +1,182 @@
+Enhanced Prompt for Building Website for Innovixus IT Services and Consultancy
+Build a professional, modern, and SEO-optimized website for a new tech startup called Innovixus IT Services and Consultancy, based in Surat, Gujarat. The domain is https://innovixus.co.
+
+🏢 Company Overview:
+Name: Innovixus IT Services and Consultancy
+
+Location: Surat, Gujarat, India
+
+We are a new startup focused on:
+
+Backend Development using Node.js, Python, Golang
+
+DevOps consulting, CI/CD pipelines, infrastructure automation
+
+Scalable cloud-based architecture for businesses
+
+🌐 Website Requirements:
+🔖 Pages:
+Home
+
+Eye-catching hero section with tagline: "Innovating Reliable Backend & DevOps Solutions for Startups and Enterprises"
+
+Startup-friendly tone of voice
+
+Service highlights, About summary, Reviews, Contact CTA
+
+About Us
+
+Founding story, startup mission, company values
+
+Team section (placeholder OK)
+
+Services
+
+Backend (Node.js, Python, Golang)
+
+DevOps (CI/CD, cloud infra, monitoring)
+
+Consulting and Architecture planning
+
+Blog
+
+Dynamic blog listing page
+
+Individual blog pages with full SEO tags
+
+Admin-friendly management: Either custom Admin Panel or third-party CMS integration (e.g., Sanity, Contentful, Strapi, or Netlify CMS)
+
+Success Stories
+
+Case studies or project highlights
+
+Admin-manageable or CMS-powered
+
+Client Reviews
+
+Showcase testimonials from clients
+
+Editable via admin or external CMS
+
+Contact
+
+Contact form (Name, Email, Message)
+
+Google Maps embed (Surat location)
+
+Business email & social links
+
+Admin Dashboard (Optional)
+
+Secure login
+
+CRUD management for:
+
+Blog posts
+
+Success stories
+
+Testimonials
+
+Auth via Firebase/Auth0 or local session
+
+Optional: Use Sanity/Strapi as a headless CMS to simplify
+
+🎨 Design Requirements:
+Modern, minimal, and startup-oriented design
+
+Professional but youthful
+
+Use TailwindCSS or similar utility framework
+
+Responsive layout (desktop/tablet/mobile)
+
+Smooth animations with Framer Motion
+
+Clean sans-serif font: Poppins, Inter, or Montserrat
+
+🎨 Color Palette:
+Primary: #1A73E8 (Tech Blue)
+
+Accent: #00C49A (Vibrant Green)
+
+Dark: #2C2C2C (Text & headings)
+
+Light: #F7F9FC (Background)
+
+🎯 Logo & Favicon:
+Generate a full named logo: Innovixus IT Services
+
+Style: Modern, clean typography with abstract “I” or infrastructure-inspired icon
+
+Colors: Blue/Green matching the site
+
+Provide:
+
+Logo in SVG & PNG
+
+Favicon (32x32, 64x64)
+
+Add favicon link in <head>
+
+🔍 SEO & Sitemap:
+Add title, meta description, meta keywords for:
+
+Home
+
+About
+
+Services
+
+Blog listing & individual posts
+
+Success Stories
+
+Reviews
+
+Contact
+
+Add structured data using schema.org for:
+
+Local business
+
+Blog posts
+
+Reviews
+
+Create robots.txt and sitemap.xml including all dynamic pages:
+
+Blogs
+
+Case studies
+
+Reviews
+
+Add Open Graph and Twitter Card tags for better link sharing
+
+📊 Integrations:
+Google Analytics v4 with placeholder tracking ID
+
+Optional: Google Tag Manager
+
+Sitemap auto-generation on build (for Next.js or similar)
+
+Contact form email forwarding (via EmailJS or similar)
+
+🛠️ Tech Stack Suggestions:
+Frontend: Next.js or React + TailwindCSS
+
+CMS (optional): Sanity, Strapi, or Netlify CMS
+
+Deployment: Vercel, Netlify, or your own server
+
+Admin Panel (if custom): Simple React dashboard or headless CMS integration
+
+📦 Optional Enhancements:
+Blog search & category filter
+
+Newsletter subscription (via Mailchimp)
+
+Dark/light mode toggle
+
+Testimonials carousel
