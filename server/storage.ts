@@ -83,7 +83,6 @@ export class MemStorage implements IStorage {
         author: "Arjun Patel",
         authorAvatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop&crop=face",
         imageUrl: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=800&h=400&fit=crop",
-        publishedAt: new Date("2023-12-15"),
         isPublished: true
       },
       {
@@ -95,7 +94,6 @@ export class MemStorage implements IStorage {
         author: "Priya Shah",
         authorAvatar: "https://images.unsplash.com/photo-1494790108755-2616b612b789?w=100&h=100&fit=crop&crop=face",
         imageUrl: "https://images.unsplash.com/photo-1618477247222-acbdb0e159b3?w=800&h=400&fit=crop",
-        publishedAt: new Date("2023-12-12"),
         isPublished: true
       },
       {
@@ -107,7 +105,6 @@ export class MemStorage implements IStorage {
         author: "Rohit Mehta",
         authorAvatar: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&h=100&fit=crop&crop=face",
         imageUrl: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=800&h=400&fit=crop",
-        publishedAt: new Date("2023-12-08"),
         isPublished: true
       }
     ];
@@ -228,9 +225,17 @@ export class MemStorage implements IStorage {
   async createBlogPost(insertPost: InsertBlogPost): Promise<BlogPost> {
     const id = this.currentBlogPostId++;
     const post: BlogPost = { 
-      ...insertPost, 
-      id, 
-      publishedAt: insertPost.publishedAt || new Date() 
+      id,
+      title: insertPost.title,
+      slug: insertPost.slug,
+      excerpt: insertPost.excerpt,
+      content: insertPost.content,
+      category: insertPost.category,
+      author: insertPost.author,
+      authorAvatar: insertPost.authorAvatar || null,
+      imageUrl: insertPost.imageUrl || null,
+      publishedAt: new Date(),
+      isPublished: insertPost.isPublished !== undefined ? insertPost.isPublished : true
     };
     this.blogPosts.set(id, post);
     return post;
@@ -264,7 +269,21 @@ export class MemStorage implements IStorage {
 
   async createSuccessStory(insertStory: InsertSuccessStory): Promise<SuccessStory> {
     const id = this.currentSuccessStoryId++;
-    const story: SuccessStory = { ...insertStory, id };
+    const story: SuccessStory = { 
+      id,
+      title: insertStory.title,
+      client: insertStory.client,
+      description: insertStory.description,
+      imageUrl: insertStory.imageUrl || null,
+      technologies: insertStory.technologies || null,
+      metric1Value: insertStory.metric1Value,
+      metric1Label: insertStory.metric1Label,
+      metric2Value: insertStory.metric2Value,
+      metric2Label: insertStory.metric2Label,
+      metric3Value: insertStory.metric3Value || null,
+      metric3Label: insertStory.metric3Label || null,
+      isPublished: insertStory.isPublished !== undefined ? insertStory.isPublished : true
+    };
     this.successStories.set(id, story);
     return story;
   }
@@ -297,7 +316,16 @@ export class MemStorage implements IStorage {
 
   async createTestimonial(insertTestimonial: InsertTestimonial): Promise<Testimonial> {
     const id = this.currentTestimonialId++;
-    const testimonial: Testimonial = { ...insertTestimonial, id };
+    const testimonial: Testimonial = { 
+      id,
+      name: insertTestimonial.name,
+      position: insertTestimonial.position,
+      company: insertTestimonial.company,
+      content: insertTestimonial.content,
+      avatar: insertTestimonial.avatar || null,
+      rating: insertTestimonial.rating || 5,
+      isPublished: insertTestimonial.isPublished !== undefined ? insertTestimonial.isPublished : true
+    };
     this.testimonials.set(id, testimonial);
     return testimonial;
   }
@@ -318,7 +346,7 @@ export class MemStorage implements IStorage {
   // Contact methods
   async getAllContactSubmissions(): Promise<ContactSubmission[]> {
     return Array.from(this.contactSubmissions.values()).sort((a, b) => 
-      new Date(b.submittedAt).getTime() - new Date(a.submittedAt).getTime()
+      new Date(b.submittedAt || 0).getTime() - new Date(a.submittedAt || 0).getTime()
     );
   }
 
