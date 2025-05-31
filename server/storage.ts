@@ -4,6 +4,8 @@ import {
   type SuccessStory, type InsertSuccessStory, type Testimonial, type InsertTestimonial,
   type ContactSubmission, type InsertContactSubmission
 } from "@shared/schema";
+import { db } from "./db";
+import { eq, desc } from "drizzle-orm";
 
 export interface IStorage {
   // User methods
@@ -378,4 +380,148 @@ export class MemStorage implements IStorage {
   }
 }
 
-export const storage = new MemStorage();
+export class DatabaseStorage implements IStorage {
+  async getUser(id: number): Promise<User | undefined> {
+    const [user] = await db.select().from(users).where(eq(users.id, id));
+    return user || undefined;
+  }
+
+  async getUserByUsername(username: string): Promise<User | undefined> {
+    const [user] = await db.select().from(users).where(eq(users.username, username));
+    return user || undefined;
+  }
+
+  async createUser(insertUser: InsertUser): Promise<User> {
+    const [user] = await db.insert(users).values(insertUser).returning();
+    return user;
+  }
+
+  // Blog methods
+  async getAllBlogPosts(): Promise<BlogPost[]> {
+    return await db.select().from(blogPosts).orderBy(desc(blogPosts.publishedAt));
+  }
+
+  async getPublishedBlogPosts(): Promise<BlogPost[]> {
+    return await db.select().from(blogPosts)
+      .where(eq(blogPosts.isPublished, true))
+      .orderBy(desc(blogPosts.publishedAt));
+  }
+
+  async getBlogPostBySlug(slug: string): Promise<BlogPost | undefined> {
+    const [post] = await db.select().from(blogPosts).where(eq(blogPosts.slug, slug));
+    return post || undefined;
+  }
+
+  async getBlogPostById(id: number): Promise<BlogPost | undefined> {
+    const [post] = await db.select().from(blogPosts).where(eq(blogPosts.id, id));
+    return post || undefined;
+  }
+
+  async createBlogPost(insertPost: InsertBlogPost): Promise<BlogPost> {
+    const [post] = await db.insert(blogPosts).values(insertPost).returning();
+    return post;
+  }
+
+  async updateBlogPost(id: number, updatePost: Partial<InsertBlogPost>): Promise<BlogPost | undefined> {
+    const [post] = await db.update(blogPosts)
+      .set(updatePost)
+      .where(eq(blogPosts.id, id))
+      .returning();
+    return post || undefined;
+  }
+
+  async deleteBlogPost(id: number): Promise<boolean> {
+    const result = await db.delete(blogPosts).where(eq(blogPosts.id, id));
+    return result.rowCount > 0;
+  }
+
+  // Success Stories methods
+  async getAllSuccessStories(): Promise<SuccessStory[]> {
+    return await db.select().from(successStories);
+  }
+
+  async getPublishedSuccessStories(): Promise<SuccessStory[]> {
+    return await db.select().from(successStories)
+      .where(eq(successStories.isPublished, true));
+  }
+
+  async getSuccessStoryById(id: number): Promise<SuccessStory | undefined> {
+    const [story] = await db.select().from(successStories).where(eq(successStories.id, id));
+    return story || undefined;
+  }
+
+  async createSuccessStory(insertStory: InsertSuccessStory): Promise<SuccessStory> {
+    const [story] = await db.insert(successStories).values(insertStory).returning();
+    return story;
+  }
+
+  async updateSuccessStory(id: number, updateStory: Partial<InsertSuccessStory>): Promise<SuccessStory | undefined> {
+    const [story] = await db.update(successStories)
+      .set(updateStory)
+      .where(eq(successStories.id, id))
+      .returning();
+    return story || undefined;
+  }
+
+  async deleteSuccessStory(id: number): Promise<boolean> {
+    const result = await db.delete(successStories).where(eq(successStories.id, id));
+    return result.rowCount > 0;
+  }
+
+  // Testimonials methods
+  async getAllTestimonials(): Promise<Testimonial[]> {
+    return await db.select().from(testimonials);
+  }
+
+  async getPublishedTestimonials(): Promise<Testimonial[]> {
+    return await db.select().from(testimonials)
+      .where(eq(testimonials.isPublished, true));
+  }
+
+  async getTestimonialById(id: number): Promise<Testimonial | undefined> {
+    const [testimonial] = await db.select().from(testimonials).where(eq(testimonials.id, id));
+    return testimonial || undefined;
+  }
+
+  async createTestimonial(insertTestimonial: InsertTestimonial): Promise<Testimonial> {
+    const [testimonial] = await db.insert(testimonials).values(insertTestimonial).returning();
+    return testimonial;
+  }
+
+  async updateTestimonial(id: number, updateTestimonial: Partial<InsertTestimonial>): Promise<Testimonial | undefined> {
+    const [testimonial] = await db.update(testimonials)
+      .set(updateTestimonial)
+      .where(eq(testimonials.id, id))
+      .returning();
+    return testimonial || undefined;
+  }
+
+  async deleteTestimonial(id: number): Promise<boolean> {
+    const result = await db.delete(testimonials).where(eq(testimonials.id, id));
+    return result.rowCount > 0;
+  }
+
+  // Contact methods
+  async getAllContactSubmissions(): Promise<ContactSubmission[]> {
+    return await db.select().from(contactSubmissions).orderBy(desc(contactSubmissions.submittedAt));
+  }
+
+  async getContactSubmissionById(id: number): Promise<ContactSubmission | undefined> {
+    const [submission] = await db.select().from(contactSubmissions).where(eq(contactSubmissions.id, id));
+    return submission || undefined;
+  }
+
+  async createContactSubmission(insertSubmission: InsertContactSubmission): Promise<ContactSubmission> {
+    const [submission] = await db.insert(contactSubmissions).values(insertSubmission).returning();
+    return submission;
+  }
+
+  async markContactSubmissionAsRead(id: number): Promise<boolean> {
+    const result = await db.update(contactSubmissions)
+      .set({ isRead: true })
+      .where(eq(contactSubmissions.id, id));
+    return result.rowCount > 0;
+  }
+}
+
+export const storage = new DatabaseStorage();
