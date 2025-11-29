@@ -20,16 +20,20 @@ export default function AdminBlog() {
   const { toast } = useToast();
   const queryClient = useQueryClient();
 
-  const { data: posts = [], isLoading } = useQuery({
+  const { data: posts = [], isLoading } = useQuery<any[]>({
     queryKey: ["/api/admin/blog"]
   });
 
   const createMutation = useMutation({
-    mutationFn: async (data) => apiRequest("/api/admin/blog", { method: "POST", body: data }),
+    mutationFn: async (data: any) => {
+      const res = await apiRequest("POST", "/api/admin/blog", data);
+      return res.json();
+    },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/admin/blog"] });
       queryClient.invalidateQueries({ queryKey: ["/api/blog"] });
       setIsCreating(false);
+      setContent("");
       toast({ title: "Blog post created successfully!" });
     },
     onError: () => {
@@ -38,11 +42,15 @@ export default function AdminBlog() {
   });
 
   const updateMutation = useMutation({
-    mutationFn: async ({ id, data }) => apiRequest(`/api/admin/blog/${id}`, { method: "PUT", body: data }),
+    mutationFn: async ({ id, data }: any) => {
+      const res = await apiRequest("PATCH", `/api/admin/blog/${id}`, data);
+      return res.json();
+    },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/admin/blog"] });
       queryClient.invalidateQueries({ queryKey: ["/api/blog"] });
       setEditingPost(null);
+      setContent("");
       toast({ title: "Blog post updated successfully!" });
     },
     onError: () => {
@@ -51,7 +59,10 @@ export default function AdminBlog() {
   });
 
   const deleteMutation = useMutation({
-    mutationFn: async (id) => apiRequest(`/api/admin/blog/${id}`, { method: "DELETE" }),
+    mutationFn: async (id: number) => {
+      const res = await apiRequest("DELETE", `/api/admin/blog/${id}`);
+      return res.json();
+    },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/admin/blog"] });
       queryClient.invalidateQueries({ queryKey: ["/api/blog"] });
@@ -62,18 +73,18 @@ export default function AdminBlog() {
     }
   });
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (e: any) => {
     e.preventDefault();
-    const formData = new FormData(e.target);
+    const formData = new FormData(e.currentTarget);
     const data = {
-      title: formData.get("title"),
-      slug: formData.get("slug"),
-      excerpt: formData.get("excerpt"),
+      title: formData.get("title") as string,
+      slug: formData.get("slug") as string,
+      excerpt: formData.get("excerpt") as string,
       content: content,
-      category: formData.get("category"),
-      author: formData.get("author"),
-      authorAvatar: formData.get("authorAvatar"),
-      imageUrl: formData.get("imageUrl"),
+      category: formData.get("category") as string,
+      author: formData.get("author") as string,
+      authorAvatar: formData.get("authorAvatar") as string,
+      imageUrl: formData.get("imageUrl") as string,
       isPublished: formData.get("isPublished") === "on"
     };
 
@@ -226,7 +237,7 @@ export default function AdminBlog() {
         )}
 
         <div className="space-y-4">
-          {posts.map((post) => (
+          {posts && posts.map((post: any) => (
             <Card key={post.id}>
               <CardContent className="p-6">
                 <div className="flex items-center justify-between">
@@ -268,7 +279,7 @@ export default function AdminBlog() {
             </Card>
           ))}
           
-          {posts.length === 0 && !isCreating && (
+          {!posts || posts.length === 0 && !isCreating && (
             <Card>
               <CardContent className="text-center py-12">
                 <h3 className="text-lg font-semibold mb-2">No blog posts yet</h3>
