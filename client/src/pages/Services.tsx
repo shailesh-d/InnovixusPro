@@ -255,9 +255,9 @@ export default function Services() {
                   <ArrowRight className="ml-2 h-4 w-4" />
                 </Button>
               </Link>
-              <Link href="/success-stories">
-                <Button className="border-2 border-white text-white hover:bg-white hover:text-primary px-8 py-3 rounded-lg font-semibold transition-colors duration-300">
-                  View Case Studies
+              <Link href="/blog">
+                <Button variant="outline" className="border-2 border-white text-white hover:bg-white hover:text-primary px-8 py-3 rounded-lg font-semibold transition-colors duration-300" data-testid="button-view-blog">
+                  Read Our Blog
                 </Button>
               </Link>
             </div>

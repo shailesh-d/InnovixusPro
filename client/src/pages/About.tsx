@@ -14,30 +14,6 @@ import {
 } from "lucide-react";
 
 export default function About() {
-  const teamMembers = [
-    {
-      name: "Arjun Patel",
-      role: "Founding Partner & CTO",
-      expertise: "Backend Architecture & DevOps",
-      image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=300&h=300",
-      description: "10+ years of experience in building scalable backend systems for Fortune 500 companies."
-    },
-    {
-      name: "Priya Shah",
-      role: "Lead DevOps Engineer",
-      expertise: "Cloud Infrastructure & Automation",
-      image: "https://images.unsplash.com/photo-1494790108755-2616b612b789?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=300&h=300",
-      description: "Expert in AWS, Docker, and Kubernetes with a passion for automation and efficiency."
-    },
-    {
-      name: "Rohit Mehta",
-      role: "Senior Backend Developer",
-      expertise: "Node.js & Python Specialist",
-      image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=300&h=300",
-      description: "Specializes in high-performance APIs and microservices architecture design."
-    }
-  ];
-
   const values = [
     {
       icon: <Zap className="h-6 w-6 text-primary" />,
@@ -80,7 +56,7 @@ export default function About() {
       />
 
       {/* Hero Section */}
-      <section className="section-padding bg-gradient-to-br from-background via-white to-blue-50">
+      <section className="section-padding bg-gradient-to-br from-background via-white to-blue-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
         <div className="container-custom">
           <div className="lg:grid lg:grid-cols-2 lg:gap-12 items-center">
             <div>
@@ -92,7 +68,7 @@ export default function About() {
                 complex backend challenges into simple, scalable solutions.
               </p>
               <Link href="/contact">
-                <Button className="btn-primary">
+                <Button className="btn-primary" data-testid="button-work-with-us">
                   Work With Us
                   <ArrowRight className="ml-2 h-4 w-4" />
                 </Button>
@@ -110,7 +86,7 @@ export default function About() {
       </section>
 
       {/* Company Story */}
-      <section className="section-padding bg-white">
+      <section className="section-padding bg-white dark:bg-gray-900">
         <div className="container-custom">
           <div className="lg:grid lg:grid-cols-2 lg:gap-12 items-center">
             <div className="mb-12 lg:mb-0">
@@ -154,7 +130,7 @@ export default function About() {
           </div>
 
           <div className="grid md:grid-cols-2 gap-8 mb-16">
-            <div className="bg-white p-8 rounded-2xl shadow-lg">
+            <div className="bg-white dark:bg-gray-800 p-8 rounded-2xl shadow-lg">
               <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mb-6">
                 <Target className="h-6 w-6 text-primary" />
               </div>
@@ -164,9 +140,9 @@ export default function About() {
                 ambitions, enabling them to focus on what they do best while we handle the complex technical challenges.
               </p>
             </div>
-            <div className="bg-white p-8 rounded-2xl shadow-lg">
+            <div className="bg-white dark:bg-gray-800 p-8 rounded-2xl shadow-lg">
               <div className="w-12 h-12 bg-accent/10 rounded-lg flex items-center justify-center mb-6">
-                <Heart className="h-6 w-6 text-accent" />
+                <Award className="h-6 w-6 text-accent" />
               </div>
               <h3 className="text-2xl font-bold text-foreground mb-4">Our Vision</h3>
               <p className="text-muted-foreground leading-relaxed">
@@ -178,42 +154,12 @@ export default function About() {
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {values.map((value, index) => (
-              <div key={index} className="bg-white p-6 rounded-xl shadow-sm hover:shadow-lg transition-all duration-300">
+              <div key={index} className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm hover:shadow-lg transition-all duration-300">
                 <div className="w-12 h-12 bg-muted rounded-lg flex items-center justify-center mb-4">
                   {value.icon}
                 </div>
                 <h4 className="text-lg font-semibold text-foreground mb-3">{value.title}</h4>
                 <p className="text-muted-foreground text-sm leading-relaxed">{value.description}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Team Section */}
-      <section className="section-padding bg-white">
-        <div className="container-custom">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl sm:text-4xl font-bold text-foreground mb-6">Meet Our Team</h2>
-            <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-              A dedicated team of experts passionate about delivering excellence in every project
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-3 gap-8">
-            {teamMembers.map((member, index) => (
-              <div key={index} className="text-center group">
-                <div className="relative mb-6">
-                  <img
-                    src={member.image}
-                    alt={`Portrait of ${member.name}, ${member.role}`}
-                    className="w-32 h-32 rounded-full mx-auto object-cover shadow-lg group-hover:shadow-xl transition-all duration-300"
-                  />
-                </div>
-                <h3 className="text-xl font-bold text-foreground mb-2">{member.name}</h3>
-                <p className="text-primary font-semibold mb-2">{member.role}</p>
-                <p className="text-sm text-muted-foreground mb-3">{member.expertise}</p>
-                <p className="text-sm text-muted-foreground leading-relaxed">{member.description}</p>
               </div>
             ))}
           </div>
@@ -230,13 +176,13 @@ export default function About() {
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link href="/contact">
-                <Button className="bg-white text-primary hover:bg-gray-100 px-8 py-3 rounded-lg font-semibold transition-colors duration-300">
+                <Button className="bg-white text-primary hover:bg-gray-100 px-8 py-3 rounded-lg font-semibold transition-colors duration-300" data-testid="button-start-project">
                   Start a Project
                   <ArrowRight className="ml-2 h-4 w-4" />
                 </Button>
               </Link>
               <Link href="/services">
-                <Button className="border-2 border-white text-white hover:bg-white hover:text-primary px-8 py-3 rounded-lg font-semibold transition-colors duration-300">
+                <Button variant="outline" className="border-2 border-white text-white hover:bg-white hover:text-primary px-8 py-3 rounded-lg font-semibold transition-colors duration-300" data-testid="button-view-services">
                   View Our Services
                 </Button>
               </Link>

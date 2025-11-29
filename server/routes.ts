@@ -2,9 +2,25 @@ import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import { insertContactSubmissionSchema } from "@shared/schema";
+import { setupAuth, isAuthenticated } from "./replitAuth";
 
 export async function registerRoutes(app: Express): Promise<Server> {
-  // Blog routes
+  // Setup authentication
+  await setupAuth(app);
+
+  // Auth routes
+  app.get('/api/auth/user', isAuthenticated, async (req: any, res) => {
+    try {
+      const userId = req.user.claims.sub;
+      const user = await storage.getUser(userId);
+      res.json(user);
+    } catch (error) {
+      console.error("Error fetching user:", error);
+      res.status(500).json({ message: "Failed to fetch user" });
+    }
+  });
+
+  // Blog routes (public)
   app.get("/api/blog", async (req, res) => {
     try {
       const posts = await storage.getPublishedBlogPosts();
@@ -33,7 +49,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // Contact form route
+  // Contact form route (public)
   app.post("/api/contact", async (req, res) => {
     try {
       const validationResult = insertContactSubmissionSchema.safeParse(req.body);
@@ -59,8 +75,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // Admin routes (for managing content)
-  app.get("/api/admin/blog", async (req, res) => {
+  // Admin routes (protected)
+  app.get("/api/admin/blog", isAuthenticated, async (req, res) => {
     try {
       const posts = await storage.getAllBlogPosts();
       res.json(posts);
@@ -69,7 +85,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.get("/api/admin/contact-submissions", async (req, res) => {
+  app.get("/api/admin/contact-submissions", isAuthenticated, async (req, res) => {
     try {
       const submissions = await storage.getAllContactSubmissions();
       res.json(submissions);
@@ -78,7 +94,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.patch("/api/admin/contact-submissions/:id/read", async (req, res) => {
+  app.patch("/api/admin/contact-submissions/:id/read", isAuthenticated, async (req, res) => {
     try {
       const id = parseInt(req.params.id);
       if (isNaN(id)) {
@@ -134,6 +150,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     res.set('Content-Type', 'text/plain');
     res.send(`User-agent: *
 Allow: /
+Disallow: /admin
 
 Sitemap: https://innovixus.co/sitemap.xml`);
   });
