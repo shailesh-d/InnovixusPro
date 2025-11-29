@@ -77,6 +77,7 @@ export default function BlogPostPage() {
         url={`https://innovixus.co/blog/${post.slug}`}
         image={post.imageUrl || undefined}
         type="article"
+        keywords={`${post.category}, backend development, devops, nodejs, python, golang, technology tutorials, ${post.author}`}
       />
 
       <article className="section-padding bg-background">

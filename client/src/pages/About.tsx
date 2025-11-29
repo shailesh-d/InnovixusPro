@@ -53,6 +53,7 @@ export default function About() {
         title="About Innovixus | Expert Backend & DevOps Team in Surat, Gujarat"
         description="Learn about Innovixus IT Services - a passionate team of backend developers and DevOps engineers in Surat, Gujarat, dedicated to delivering innovative technology solutions."
         url="https://innovixus.co/about"
+        keywords="about innovixus, backend developers, devops engineers, surat tech team, IT services company, technology solutions, startup consulting"
       />
 
       {/* Hero Section */}

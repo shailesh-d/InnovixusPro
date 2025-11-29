@@ -80,6 +80,7 @@ export default function Contact() {
         title="Contact Us | Get in Touch with Innovixus IT Services"
         description="Ready to transform your technology infrastructure? Contact Innovixus for expert backend development and DevOps consulting. Located in Surat, Gujarat."
         url="https://innovixus.co/contact"
+        keywords="contact innovixus, backend development services, devops consulting, surat tech company, hire developers, IT solutions, start a project"
       />
 
       {/* Hero Section */}
