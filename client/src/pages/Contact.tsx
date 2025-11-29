@@ -35,6 +35,22 @@ export default function Contact() {
     message: ""
   });
 
+  return (
+    <>
+      <SEO 
+        title="Contact Innovixus | Get in Touch - Backend & DevOps Solutions"
+        description="Contact Innovixus IT Services for backend development, DevOps consulting, and cloud architecture solutions. Reach out to our team in Surat, Gujarat."
+        url="https://innovixus.co/contact"
+      />
+      {renderContent(formData, setFormData, handleSubmit, contactMutation, toast)}
+    </>
+  );
+
+  function renderContent(formData: ContactFormData, setFormData: any, handleSubmit: any, contactMutation: any, toast: any) {
+    return (
+      <>
+
+
   const contactMutation = useMutation({
     mutationFn: async (data: ContactFormData) => {
       return await apiRequest("POST", "/api/contact", data);
