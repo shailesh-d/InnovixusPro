@@ -25,8 +25,7 @@ function loadJSON<T>(filePath: string, defaultValue: T[]): T[] {
     try {
       const data = fs.readFileSync(filePath, "utf-8");
       return JSON.parse(data);
-    } catch (error) {
-      console.error(`Error reading ${filePath}:`, error);
+    } catch {
       return defaultValue;
     }
   }
@@ -159,7 +158,6 @@ export class FileStorage {
     };
     this.contactSubmissions.push(newSubmission);
     this.saveContactSubmissions();
-    console.log("New contact submission:", newSubmission);
     return newSubmission;
   }
 

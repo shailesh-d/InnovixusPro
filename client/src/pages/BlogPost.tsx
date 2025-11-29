@@ -75,7 +75,7 @@ export default function BlogPostPage() {
         title={`${post.title} | Innovixus Blog`}
         description={post.excerpt}
         url={`https://innovixus.co/blog/${post.slug}`}
-        image={post.imageUrl}
+        image={post.imageUrl || undefined}
         type="article"
       />
 

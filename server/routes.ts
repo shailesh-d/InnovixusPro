@@ -22,8 +22,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     try {
       const posts = await storage.getPublishedBlogPosts();
       res.json(posts);
-    } catch (error) {
-      console.error("Error fetching blog posts:", error);
+    } catch {
       res.status(500).json({ error: "Failed to fetch blog posts" });
     }
   });
@@ -65,8 +64,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         message: "Contact form submitted successfully",
         id: submission.id,
       });
-    } catch (error) {
-      console.error("Contact form submission error:", error);
+    } catch {
       res.status(500).json({ error: "Failed to submit contact form" });
     }
   });

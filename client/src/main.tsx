@@ -6,12 +6,7 @@ import { initGA } from "./lib/analytics";
 
 function AppWithAnalytics() {
   useEffect(() => {
-    // Initialize Google Analytics when app loads
-    if (!import.meta.env.VITE_GA_MEASUREMENT_ID) {
-      console.warn('Missing required Google Analytics key: VITE_GA_MEASUREMENT_ID');
-    } else {
-      initGA();
-    }
+    initGA();
   }, []);
 
   return <App />;
