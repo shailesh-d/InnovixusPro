@@ -15,7 +15,7 @@ export default function Blog() {
     queryKey: ["/api/blog"]
   });
 
-  const categories = ["all", ...new Set(blogPosts.map(post => post.category))];
+  const categories = ["all", ...Array.from(new Set(blogPosts.map(post => post.category)))];
 
   const filteredPosts = blogPosts.filter(post => {
     const matchesSearch = post.title.toLowerCase().includes(searchTerm.toLowerCase()) ||

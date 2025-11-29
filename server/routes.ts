@@ -8,12 +8,21 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Setup authentication
   await setupAuth(app);
 
-  // Auth routes
+  // Auth routes - return user info from session claims
   app.get('/api/auth/user', isAuthenticated, async (req: any, res) => {
     try {
-      const userId = req.user.claims.sub;
-      const user = await storage.getUser(userId);
-      res.json(user);
+      const claims = req.user?.claims;
+      if (!claims) {
+        return res.status(401).json({ message: "Unauthorized" });
+      }
+      
+      res.json({
+        id: claims.sub,
+        email: claims.email,
+        firstName: claims.first_name,
+        lastName: claims.last_name,
+        profileImageUrl: claims.profile_image_url,
+      });
     } catch (error) {
       console.error("Error fetching user:", error);
       res.status(500).json({ message: "Failed to fetch user" });
@@ -26,6 +35,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const posts = await storage.getPublishedBlogPosts();
       res.json(posts);
     } catch (error) {
+      console.error("Error fetching blog posts:", error);
       res.status(500).json({ error: "Failed to fetch blog posts" });
     }
   });
