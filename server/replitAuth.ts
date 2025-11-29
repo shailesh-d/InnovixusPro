@@ -43,7 +43,12 @@ export async function setupAuth(app: Express) {
       };
 
       (req.session as any).user = user;
-      res.json(user);
+      req.session.save((err) => {
+        if (err) {
+          return res.status(500).json({ message: "Session error" });
+        }
+        res.json(user);
+      });
     } else {
       res.status(401).json({ message: "Invalid credentials" });
     }

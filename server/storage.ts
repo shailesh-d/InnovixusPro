@@ -88,15 +88,23 @@ export class FileStorage {
 
   // Blog methods
   async getAllBlogPosts(): Promise<BlogPost[]> {
-    return [...this.blogPosts].sort(
-      (a, b) => b.publishedAt.getTime() - a.publishedAt.getTime()
+    const posts = this.blogPosts.map(p => ({
+      ...p,
+      publishedAt: typeof p.publishedAt === 'string' ? new Date(p.publishedAt) : p.publishedAt
+    }));
+    return posts.sort(
+      (a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime()
     );
   }
 
   async getPublishedBlogPosts(): Promise<BlogPost[]> {
     return this.blogPosts
       .filter((p) => p.isPublished)
-      .sort((a, b) => b.publishedAt.getTime() - a.publishedAt.getTime());
+      .map(p => ({
+        ...p,
+        publishedAt: typeof p.publishedAt === 'string' ? new Date(p.publishedAt) : p.publishedAt
+      }))
+      .sort((a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime());
   }
 
   async getBlogPostBySlug(slug: string): Promise<BlogPost | undefined> {
@@ -124,7 +132,10 @@ export class FileStorage {
   async updateBlogPost(id: number, update: Partial<InsertBlogPost>): Promise<BlogPost | undefined> {
     const index = this.blogPosts.findIndex((p) => p.id === id);
     if (index === -1) return undefined;
-    this.blogPosts[index] = { ...this.blogPosts[index], ...update };
+    const updated = { ...this.blogPosts[index], ...update };
+    // Ensure publishedAt remains a Date object
+    updated.publishedAt = this.blogPosts[index].publishedAt;
+    this.blogPosts[index] = updated;
     this.saveBlogPosts();
     return this.blogPosts[index];
   }
