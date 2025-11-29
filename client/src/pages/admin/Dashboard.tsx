@@ -5,30 +5,21 @@ import { Button } from "@/components/ui/button";
 import { Link } from "wouter";
 import { 
   FileText, 
-  MessageSquare, 
-  Award, 
   Mail,
   Plus,
   BarChart3,
   TrendingUp
 } from "lucide-react";
 import { ThemeToggle } from "@/components/ThemeToggle";
+import type { BlogPost, ContactSubmission } from "@shared/schema";
 
 export default function AdminDashboard() {
-  const { data: blogPosts = [] } = useQuery({
+  const { data: blogPosts = [] } = useQuery<BlogPost[]>({
     queryKey: ["/api/admin/blog"]
   });
 
-  const { data: testimonials = [] } = useQuery({
-    queryKey: ["/api/admin/testimonials"]
-  });
-
-  const { data: successStories = [] } = useQuery({
-    queryKey: ["/api/admin/success-stories"]
-  });
-
-  const { data: contacts = [] } = useQuery({
-    queryKey: ["/api/admin/contacts"]
+  const { data: contacts = [] } = useQuery<ContactSubmission[]>({
+    queryKey: ["/api/admin/contact-submissions"]
   });
 
   const stats = [
@@ -40,20 +31,6 @@ export default function AdminDashboard() {
       link: "/admin/blog"
     },
     {
-      title: "Testimonials",
-      value: testimonials.length,
-      icon: MessageSquare,
-      color: "bg-green-500",
-      link: "/admin/testimonials"
-    },
-    {
-      title: "Success Stories",
-      value: successStories.length,
-      icon: Award,
-      color: "bg-purple-500",
-      link: "/admin/success-stories"
-    },
-    {
       title: "Contact Messages",
       value: contacts.length,
       icon: Mail,
@@ -62,10 +39,8 @@ export default function AdminDashboard() {
     }
   ];
 
-  const publishedBlogPosts = blogPosts.filter(post => post.isPublished);
-  const publishedTestimonials = testimonials.filter(t => t.isPublished);
-  const publishedStories = successStories.filter(s => s.isPublished);
-  const unreadContacts = contacts.filter(c => !c.isRead);
+  const publishedBlogPosts = blogPosts.filter((post: BlogPost) => post.isPublished);
+  const unreadContacts = contacts.filter((c: ContactSubmission) => !c.isRead);
 
   return (
     <div className="min-h-screen bg-background">
@@ -88,7 +63,7 @@ export default function AdminDashboard() {
 
       <div className="container-custom py-8">
         {/* Stats Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
           {stats.map((stat) => {
             const Icon = stat.icon;
             return (
@@ -128,16 +103,10 @@ export default function AdminDashboard() {
                   Create New Blog Post
                 </Button>
               </Link>
-              <Link href="/admin/testimonials">
+              <Link href="/admin/contacts">
                 <Button className="w-full justify-start" variant="outline">
-                  <MessageSquare className="h-4 w-4 mr-2" />
-                  Add Testimonial
-                </Button>
-              </Link>
-              <Link href="/admin/success-stories">
-                <Button className="w-full justify-start" variant="outline">
-                  <Award className="h-4 w-4 mr-2" />
-                  Add Success Story
+                  <Mail className="h-4 w-4 mr-2" />
+                  View Contact Messages
                 </Button>
               </Link>
             </CardContent>
@@ -154,14 +123,6 @@ export default function AdminDashboard() {
               <div className="flex justify-between items-center">
                 <span className="text-sm text-muted-foreground">Published Blog Posts</span>
                 <Badge variant="secondary">{publishedBlogPosts.length}</Badge>
-              </div>
-              <div className="flex justify-between items-center">
-                <span className="text-sm text-muted-foreground">Published Testimonials</span>
-                <Badge variant="secondary">{publishedTestimonials.length}</Badge>
-              </div>
-              <div className="flex justify-between items-center">
-                <span className="text-sm text-muted-foreground">Published Stories</span>
-                <Badge variant="secondary">{publishedStories.length}</Badge>
               </div>
               <div className="flex justify-between items-center">
                 <span className="text-sm text-muted-foreground">Unread Messages</span>
@@ -183,7 +144,7 @@ export default function AdminDashboard() {
           </CardHeader>
           <CardContent>
             <div className="space-y-4">
-              {blogPosts.slice(0, 3).map((post) => (
+              {blogPosts.slice(0, 3).map((post: BlogPost) => (
                 <div key={post.id} className="flex items-center justify-between p-3 bg-muted rounded-lg">
                   <div>
                     <h4 className="font-medium">{post.title}</h4>

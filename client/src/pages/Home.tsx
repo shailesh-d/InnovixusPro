@@ -1,9 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import Hero from "@/components/Hero";
 import ServiceCard from "@/components/ServiceCard";
-import TestimonialCard from "@/components/TestimonialCard";
 import BlogCard from "@/components/BlogCard";
-import SuccessStoryCard from "@/components/SuccessStoryCard";
 import SEO from "@/components/SEO";
 import { Button } from "@/components/ui/button";
 import { Link } from "wouter";
@@ -17,19 +15,11 @@ import {
   Award,
   Zap
 } from "lucide-react";
-import type { BlogPost, Testimonial, SuccessStory } from "@shared/schema";
+import type { BlogPost } from "@shared/schema";
 
 export default function Home() {
   const { data: blogPosts = [] } = useQuery<BlogPost[]>({
     queryKey: ["/api/blog"]
-  });
-
-  const { data: testimonials = [] } = useQuery<Testimonial[]>({
-    queryKey: ["/api/testimonials"]
-  });
-
-  const { data: successStories = [] } = useQuery<SuccessStory[]>({
-    queryKey: ["/api/success-stories"]
   });
 
   const services = [
@@ -76,7 +66,7 @@ export default function Home() {
       <Hero />
 
       {/* Services Preview */}
-      <section className="section-padding bg-white">
+      <section className="section-padding bg-white dark:bg-gray-900">
         <div className="container-custom">
           <div className="text-center mb-16">
             <h2 className="text-3xl sm:text-4xl font-bold text-foreground mb-4">Our Core Services</h2>
@@ -147,67 +137,9 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Success Stories Preview */}
-      {successStories.length > 0 && (
-        <section className="section-padding bg-white">
-          <div className="container-custom">
-            <div className="text-center mb-16">
-              <h2 className="text-3xl sm:text-4xl font-bold text-foreground mb-4">Success Stories</h2>
-              <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-                Real results from real clients. See how we've helped businesses transform their technology infrastructure
-              </p>
-            </div>
-
-            <div className="grid lg:grid-cols-2 gap-8 mb-12">
-              {successStories.slice(0, 2).map((story) => (
-                <SuccessStoryCard key={story.id} story={story} />
-              ))}
-            </div>
-
-            <div className="text-center">
-              <Link href="/success-stories">
-                <Button className="btn-primary">
-                  View All Success Stories
-                  <ArrowRight className="ml-2 h-4 w-4" />
-                </Button>
-              </Link>
-            </div>
-          </div>
-        </section>
-      )}
-
-      {/* Testimonials Preview */}
-      {testimonials.length > 0 && (
-        <section className="section-padding bg-background">
-          <div className="container-custom">
-            <div className="text-center mb-16">
-              <h2 className="text-3xl sm:text-4xl font-bold text-foreground mb-4">Client Testimonials</h2>
-              <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-                Don't just take our word for it. Here's what our clients say about working with Innovixus
-              </p>
-            </div>
-
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
-              {testimonials.slice(0, 3).map((testimonial) => (
-                <TestimonialCard key={testimonial.id} testimonial={testimonial} />
-              ))}
-            </div>
-
-            <div className="text-center">
-              <Link href="/reviews">
-                <Button className="btn-primary">
-                  Read All Reviews
-                  <ArrowRight className="ml-2 h-4 w-4" />
-                </Button>
-              </Link>
-            </div>
-          </div>
-        </section>
-      )}
-
       {/* Blog Preview */}
       {blogPosts.length > 0 && (
-        <section className="section-padding bg-white">
+        <section className="section-padding bg-white dark:bg-gray-900">
           <div className="container-custom">
             <div className="text-center mb-16">
               <h2 className="text-3xl sm:text-4xl font-bold text-foreground mb-4">Latest Insights</h2>
@@ -233,6 +165,22 @@ export default function Home() {
           </div>
         </section>
       )}
+
+      {/* CTA Section */}
+      <section className="section-padding bg-gradient-to-r from-primary to-accent">
+        <div className="container-custom text-center">
+          <h2 className="text-3xl sm:text-4xl font-bold text-white mb-6">Ready to Transform Your Infrastructure?</h2>
+          <p className="text-xl text-white/90 max-w-2xl mx-auto mb-8">
+            Let's discuss how we can help you build scalable, reliable systems that drive your business forward.
+          </p>
+          <Link href="/contact">
+            <Button size="lg" variant="secondary" className="bg-white text-primary hover:bg-gray-100">
+              Get Started Today
+              <ArrowRight className="ml-2 h-5 w-5" />
+            </Button>
+          </Link>
+        </div>
+      </section>
     </>
   );
 }
