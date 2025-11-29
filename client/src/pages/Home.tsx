@@ -60,7 +60,9 @@ export default function Home() {
 
   return (
     <>
-      <SEO />
+      <SEO 
+        keywords="backend development, devops, nodejs, python, golang, cloud architecture, IT services, surat, startup solutions"
+      />
       
       {/* Hero Section */}
       <Hero />

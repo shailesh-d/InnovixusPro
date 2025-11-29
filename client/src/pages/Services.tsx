@@ -21,20 +21,7 @@ import {
 } from "lucide-react";
 
 export default function Services() {
-  return (
-    <>
-      <SEO 
-        title="Services | Backend Development & DevOps Solutions - Innovixus"
-        description="Professional backend development, DevOps consulting, and cloud architecture solutions tailored for startups and enterprises. Get expert technical guidance."
-        url="https://innovixus.co/services"
-        keywords="backend development, devops, cloud architecture, nodejs, python, golang, kubernetes, aws"
-      />
-      {renderContent()}
-    </>
-  );
-
-  function renderContent() {
-    const services = [
+  const services = [
     {
       icon: <Server className="h-8 w-8 text-primary" />,
       title: "Backend Development",
@@ -79,49 +66,17 @@ export default function Services() {
     }
   ];
 
-  const additionalServices = [
-    {
-      title: "API Development & Integration",
-      description: "Custom API development and third-party integrations",
-      icon: <Code className="h-6 w-6 text-primary" />
-    },
-    {
-      title: "Database Optimization",
-      description: "Performance tuning and query optimization",
-      icon: <Database className="h-6 w-6 text-accent" />
-    },
-    {
-      title: "Security Audits",
-      description: "Comprehensive security assessments and compliance",
-      icon: <Shield className="h-6 w-6 text-red-500" />
-    },
-    {
-      title: "Performance Monitoring",
-      description: "Real-time monitoring and alerting systems",
-      icon: <LineChart className="h-6 w-6 text-orange-500" />
-    },
-    {
-      title: "Cloud Migration",
-      description: "Seamless migration to cloud platforms",
-      icon: <Cloud className="h-6 w-6 text-blue-500" />
-    },
-    {
-      title: "Technical Support",
-      description: "Ongoing maintenance and technical support",
-      icon: <Monitor className="h-6 w-6 text-purple-500" />
-    }
-  ];
-
   return (
     <>
       <SEO 
-        title="Our Services | Backend Development & DevOps Solutions - Innovixus"
-        description="Comprehensive backend development, DevOps consulting, and cloud architecture services. Expert Node.js, Python, Golang development with CI/CD pipeline setup in Surat, Gujarat."
+        title="Services | Backend Development & DevOps Solutions - Innovixus"
+        description="Professional backend development, DevOps consulting, and cloud architecture solutions tailored for startups and enterprises. Get expert technical guidance."
         url="https://innovixus.co/services"
+        keywords="backend development, devops, cloud architecture, nodejs, python, golang, kubernetes, aws"
       />
 
       {/* Hero Section */}
-      <section className="section-padding bg-gradient-to-br from-background via-white to-blue-50">
+      <section className="section-padding bg-gradient-to-br from-background via-white to-blue-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
         <div className="container-custom">
           <div className="text-center">
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-foreground leading-tight mb-6">
@@ -131,7 +86,7 @@ export default function Services() {
               From backend development to DevOps automation, we provide end-to-end technology solutions 
               tailored to your business needs
             </p>
-            <Link href="/contact">
+            <Link href="/contact" data-testid="button-get-started">
               <Button className="btn-primary">
                 Get Started Today
                 <ArrowRight className="ml-2 h-4 w-4" />
@@ -142,7 +97,7 @@ export default function Services() {
       </section>
 
       {/* Main Services */}
-      <section className="section-padding bg-white">
+      <section className="section-padding bg-white dark:bg-gray-900">
         <div className="container-custom">
           <div className="space-y-24">
             {services.map((service, index) => (
@@ -152,101 +107,32 @@ export default function Services() {
                     {service.icon}
                     <span className="ml-2">{service.title}</span>
                   </div>
-                  <h3 className="text-3xl font-bold text-foreground mb-6">{service.title} Excellence</h3>
-                  <p className="text-lg text-muted-foreground mb-8 leading-relaxed">
-                    {service.description}
-                  </p>
-                  
-                  <div className="grid sm:grid-cols-2 gap-4 mb-8">
-                    {service.features.map((feature, featureIndex) => (
-                      <div key={featureIndex} className="bg-white p-4 rounded-lg shadow-sm border border-border">
-                        <div className="flex items-center space-x-2 mb-2">
+                  <h3 className="text-3xl font-bold text-foreground mb-6">{service.title}</h3>
+                  <p className="text-muted-foreground text-lg mb-6 leading-relaxed">{service.description}</p>
+                  <div className="space-y-4 mb-8">
+                    {service.features.map((feature, fidx) => (
+                      <div key={fidx} className="flex items-center space-x-3">
+                        <div className="w-6 h-6 bg-primary/10 rounded-lg flex items-center justify-center">
                           {feature.icon}
-                          <h4 className="font-semibold text-foreground">{feature.text}</h4>
                         </div>
+                        <span className="text-muted-foreground">{feature.text}</span>
                       </div>
                     ))}
                   </div>
-
-                  <div className="mb-8">
-                    <h4 className="font-semibold text-foreground mb-3">Technologies We Use:</h4>
-                    <div className="flex flex-wrap gap-2">
-                      {service.technologies.map((tech, techIndex) => (
-                        <span key={techIndex} className="px-3 py-1 bg-muted text-foreground text-sm rounded-full">
-                          {tech}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-
-                  <Link href="/contact">
-                    <Button className="btn-primary">
+                  <Link href="/contact" data-testid={`button-contact-service-${index}`}>
+                    <Button variant="outline" className="btn-secondary">
                       Learn More
                       <ArrowRight className="ml-2 h-4 w-4" />
                     </Button>
                   </Link>
                 </div>
-                
                 <div className={index % 2 === 1 ? 'lg:order-1' : ''}>
                   <img
                     src={service.image}
-                    alt={`${service.title} illustration`}
+                    alt={`${service.title} service illustration`}
                     className="rounded-2xl shadow-xl w-full hover-lift"
                   />
                 </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Additional Services */}
-      <section className="section-padding bg-background">
-        <div className="container-custom">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl sm:text-4xl font-bold text-foreground mb-6">Additional Services</h2>
-            <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-              Comprehensive support services to complement our core offerings
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {additionalServices.map((service, index) => (
-              <div key={index} className="bg-white p-6 rounded-xl shadow-sm hover:shadow-lg transition-all duration-300 hover-lift">
-                <div className="w-12 h-12 bg-muted rounded-lg flex items-center justify-center mb-4">
-                  {service.icon}
-                </div>
-                <h3 className="text-lg font-semibold text-foreground mb-3">{service.title}</h3>
-                <p className="text-muted-foreground text-sm leading-relaxed">{service.description}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Process Section */}
-      <section className="section-padding bg-white">
-        <div className="container-custom">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl sm:text-4xl font-bold text-foreground mb-6">Our Process</h2>
-            <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-              A proven methodology that ensures successful project delivery
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-4 gap-8">
-            {[
-              { step: "01", title: "Discovery", description: "Understanding your requirements and technical challenges" },
-              { step: "02", title: "Planning", description: "Designing the optimal solution architecture and timeline" },
-              { step: "03", title: "Development", description: "Building and testing your solution with regular updates" },
-              { step: "04", title: "Delivery", description: "Deployment, training, and ongoing support" }
-            ].map((phase, index) => (
-              <div key={index} className="text-center">
-                <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <span className="text-primary font-bold text-lg">{phase.step}</span>
-                </div>
-                <h3 className="text-xl font-semibold text-foreground mb-3">{phase.title}</h3>
-                <p className="text-muted-foreground text-sm leading-relaxed">{phase.description}</p>
               </div>
             ))}
           </div>
@@ -263,7 +149,7 @@ export default function Services() {
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link href="/contact">
-                <Button className="bg-white text-primary hover:bg-gray-100 px-8 py-3 rounded-lg font-semibold transition-colors duration-300">
+                <Button className="bg-white text-primary hover:bg-gray-100 px-8 py-3 rounded-lg font-semibold transition-colors duration-300" data-testid="button-start-project">
                   Start Your Project
                   <ArrowRight className="ml-2 h-4 w-4" />
                 </Button>
