@@ -1,9 +1,9 @@
 import { useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
+import { useLocation, Link } from "wouter";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Link } from "wouter";
 import { 
   FileText, 
   Mail,
@@ -19,22 +19,16 @@ import { useToast } from "@/hooks/use-toast";
 import type { BlogPost, ContactSubmission } from "@shared/schema";
 
 export default function AdminDashboard() {
+  const [, setLocation] = useLocation();
   const { toast } = useToast();
-  const { user, isAuthenticated, isLoading: authLoading } = useAuth();
+  const { user, isAuthenticated, isLoading: authLoading, logout } = useAuth();
 
   // Redirect to login if not authenticated
   useEffect(() => {
     if (!authLoading && !isAuthenticated) {
-      toast({
-        title: "Authentication Required",
-        description: "Please log in to access the admin dashboard.",
-        variant: "destructive",
-      });
-      setTimeout(() => {
-        window.location.href = "/api/login";
-      }, 500);
+      setLocation("/admin/login");
     }
-  }, [isAuthenticated, authLoading, toast]);
+  }, [isAuthenticated, authLoading, setLocation]);
 
   const { data: blogPosts = [] } = useQuery<BlogPost[]>({
     queryKey: ["/api/admin/blog"],
@@ -109,12 +103,19 @@ export default function AdminDashboard() {
               <Link href="/">
                 <Button variant="outline" data-testid="button-view-website">View Website</Button>
               </Link>
-              <a href="/api/logout">
-                <Button variant="outline" size="sm" data-testid="button-logout">
-                  <LogOut className="h-4 w-4 mr-2" />
-                  Logout
-                </Button>
-              </a>
+              <Button 
+                variant="outline" 
+                size="sm" 
+                onClick={() => {
+                  logout(undefined, {
+                    onSuccess: () => setLocation("/admin/login"),
+                  });
+                }}
+                data-testid="button-logout"
+              >
+                <LogOut className="h-4 w-4 mr-2" />
+                Logout
+              </Button>
             </div>
           </div>
         </div>

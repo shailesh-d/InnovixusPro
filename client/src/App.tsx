@@ -16,6 +16,7 @@ import Contact from "@/pages/Contact";
 import NotFound from "@/pages/not-found";
 
 // Admin pages
+import AdminLogin from "@/pages/admin/Login";
 import AdminDashboard from "@/pages/admin/Dashboard";
 import AdminBlog from "@/pages/admin/Blog";
 import AdminContacts from "@/pages/admin/Contacts";
@@ -35,6 +36,7 @@ function Router() {
         <Route path="/contact" component={Contact} />
         
         {/* Admin routes */}
+        <Route path="/admin/login" component={AdminLogin} />
         <Route path="/admin" component={AdminDashboard} />
         <Route path="/admin/blog" component={AdminBlog} />
         <Route path="/admin/contacts" component={AdminContacts} />

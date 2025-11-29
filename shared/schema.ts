@@ -1,55 +1,61 @@
-import { pgTable, text, serial, boolean, timestamp } from "drizzle-orm/pg-core";
-import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
 
-export const blogPosts = pgTable("blog_posts", {
-  id: serial("id").primaryKey(),
-  title: text("title").notNull(),
-  slug: text("slug").notNull().unique(),
-  excerpt: text("excerpt").notNull(),
-  content: text("content").notNull(),
-  category: text("category").notNull(),
-  author: text("author").notNull(),
-  authorAvatar: text("author_avatar"),
-  imageUrl: text("image_url"),
-  publishedAt: timestamp("published_at").defaultNow(),
-  isPublished: boolean("is_published").default(true),
+// Blog Post types
+export const blogPostSchema = z.object({
+  id: z.number().int(),
+  title: z.string(),
+  slug: z.string(),
+  excerpt: z.string(),
+  content: z.string(),
+  category: z.string(),
+  author: z.string(),
+  authorAvatar: z.string().nullable().optional(),
+  imageUrl: z.string().nullable().optional(),
+  publishedAt: z.date(),
+  isPublished: z.boolean().default(true),
 });
 
-export const contactSubmissions = pgTable("contact_submissions", {
-  id: serial("id").primaryKey(),
-  name: text("name").notNull(),
-  email: text("email").notNull(),
-  company: text("company"),
-  message: text("message").notNull(),
-  submittedAt: timestamp("submitted_at").defaultNow(),
-  isRead: boolean("is_read").default(false),
+export const insertBlogPostSchema = z.object({
+  title: z.string(),
+  slug: z.string(),
+  excerpt: z.string(),
+  content: z.string(),
+  category: z.string(),
+  author: z.string(),
+  authorAvatar: z.string().nullable().optional(),
+  imageUrl: z.string().nullable().optional(),
+  isPublished: z.boolean().default(true),
 });
 
-// Insert schemas
-export const insertBlogPostSchema = createInsertSchema(blogPosts).omit({
-  id: true,
-  publishedAt: true,
+// Contact Submission types
+export const contactSubmissionSchema = z.object({
+  id: z.number().int(),
+  name: z.string(),
+  email: z.string().email(),
+  company: z.string().nullable().optional(),
+  message: z.string(),
+  submittedAt: z.date(),
+  isRead: z.boolean().default(false),
 });
 
-export const insertContactSubmissionSchema = createInsertSchema(contactSubmissions).omit({
-  id: true,
-  submittedAt: true,
-  isRead: true,
+export const insertContactSubmissionSchema = z.object({
+  name: z.string().min(1, "Name is required"),
+  email: z.string().email("Invalid email address"),
+  company: z.string().optional(),
+  message: z.string().min(1, "Message is required"),
 });
 
-// Types
-export type BlogPost = typeof blogPosts.$inferSelect;
-export type InsertBlogPost = z.infer<typeof insertBlogPostSchema>;
-
-export type ContactSubmission = typeof contactSubmissions.$inferSelect;
-export type InsertContactSubmission = z.infer<typeof insertContactSubmissionSchema>;
-
-// User type for auth (from session claims, not database)
+// User types (from auth)
 export interface User {
   id: string;
-  email?: string;
+  email: string;
   firstName?: string;
   lastName?: string;
   profileImageUrl?: string;
 }
+
+// Inferred types
+export type BlogPost = z.infer<typeof blogPostSchema>;
+export type InsertBlogPost = z.infer<typeof insertBlogPostSchema>;
+export type ContactSubmission = z.infer<typeof contactSubmissionSchema>;
+export type InsertContactSubmission = z.infer<typeof insertContactSubmissionSchema>;
