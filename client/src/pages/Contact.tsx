@@ -35,22 +35,6 @@ export default function Contact() {
     message: ""
   });
 
-  return (
-    <>
-      <SEO 
-        title="Contact Innovixus | Get in Touch - Backend & DevOps Solutions"
-        description="Contact Innovixus IT Services for backend development, DevOps consulting, and cloud architecture solutions. Reach out to our team in Surat, Gujarat."
-        url="https://innovixus.co/contact"
-      />
-      {renderContent(formData, setFormData, handleSubmit, contactMutation, toast)}
-    </>
-  );
-
-  function renderContent(formData: ContactFormData, setFormData: any, handleSubmit: any, contactMutation: any, toast: any) {
-    return (
-      <>
-
-
   const contactMutation = useMutation({
     mutationFn: async (data: ContactFormData) => {
       return await apiRequest("POST", "/api/contact", data);
@@ -99,7 +83,7 @@ export default function Contact() {
       />
 
       {/* Hero Section */}
-      <section className="section-padding bg-gradient-to-br from-background via-white to-blue-50">
+      <section className="section-padding bg-gradient-to-br from-background via-white to-blue-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
         <div className="container-custom">
           <div className="text-center">
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-foreground leading-tight mb-6">
@@ -119,7 +103,7 @@ export default function Contact() {
           <div className="grid lg:grid-cols-2 gap-16">
             {/* Contact Form */}
             <div>
-              <div className="bg-white rounded-2xl shadow-lg p-8">
+              <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-8">
                 <h2 className="text-3xl font-bold text-foreground mb-6">Send us a message</h2>
                 <form onSubmit={handleSubmit} className="space-y-6">
                   <div>
@@ -135,6 +119,7 @@ export default function Contact() {
                       onChange={handleInputChange}
                       placeholder="Your full name"
                       className="w-full"
+                      data-testid="input-name"
                     />
                   </div>
 
@@ -151,6 +136,7 @@ export default function Contact() {
                       onChange={handleInputChange}
                       placeholder="your.email@company.com"
                       className="w-full"
+                      data-testid="input-email"
                     />
                   </div>
 
@@ -166,6 +152,7 @@ export default function Contact() {
                       onChange={handleInputChange}
                       placeholder="Your company name"
                       className="w-full"
+                      data-testid="input-company"
                     />
                   </div>
 
@@ -182,6 +169,7 @@ export default function Contact() {
                       onChange={handleInputChange}
                       placeholder="Tell us about your project, challenges, and goals..."
                       className="w-full resize-none"
+                      data-testid="input-message"
                     />
                   </div>
 
@@ -189,6 +177,7 @@ export default function Contact() {
                     type="submit" 
                     className="w-full btn-primary"
                     disabled={contactMutation.isPending}
+                    data-testid="button-submit-contact"
                   >
                     {contactMutation.isPending ? (
                       "Sending..."
@@ -206,7 +195,7 @@ export default function Contact() {
             {/* Contact Information */}
             <div className="space-y-8">
               {/* Contact Details */}
-              <div className="bg-white rounded-2xl shadow-lg p-8">
+              <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-8">
                 <h3 className="text-2xl font-bold text-foreground mb-6">Contact Information</h3>
                 <div className="space-y-6">
                   <div className="flex items-start space-x-4">
@@ -263,6 +252,8 @@ export default function Contact() {
                       target="_blank"
                       rel="noopener noreferrer"
                       className="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center hover:bg-primary hover:text-white transition-colors duration-300"
+                      data-testid="link-linkedin"
+                      aria-label="Follow us on LinkedIn"
                     >
                       <Linkedin className="h-4 w-4" />
                     </a>
@@ -271,6 +262,8 @@ export default function Contact() {
                       target="_blank"
                       rel="noopener noreferrer"
                       className="w-10 h-10 bg-accent/10 rounded-lg flex items-center justify-center hover:bg-accent hover:text-white transition-colors duration-300"
+                      data-testid="link-twitter"
+                      aria-label="Follow us on Twitter"
                     >
                       <Twitter className="h-4 w-4" />
                     </a>
@@ -279,6 +272,8 @@ export default function Contact() {
                       target="_blank"
                       rel="noopener noreferrer"
                       className="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center hover:bg-primary hover:text-white transition-colors duration-300"
+                      data-testid="link-github"
+                      aria-label="Visit us on GitHub"
                     >
                       <Github className="h-4 w-4" />
                     </a>
@@ -287,7 +282,7 @@ export default function Contact() {
               </div>
 
               {/* Why Choose Us */}
-              <div className="bg-white rounded-2xl shadow-lg p-8">
+              <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-8">
                 <h3 className="text-2xl font-bold text-foreground mb-6">Why Choose Innovixus?</h3>
                 <div className="space-y-4">
                   {[
@@ -298,7 +293,7 @@ export default function Contact() {
                     "Agile methodology with regular updates",
                     "100% satisfaction guarantee"
                   ].map((benefit, index) => (
-                    <div key={index} className="flex items-center space-x-3">
+                    <div key={index} className="flex items-center space-x-3" data-testid={`text-benefit-${index}`}>
                       <CheckCircle className="h-5 w-5 text-accent flex-shrink-0" />
                       <span className="text-muted-foreground">{benefit}</span>
                     </div>
@@ -311,14 +306,14 @@ export default function Contact() {
       </section>
 
       {/* Google Maps */}
-      <section className="section-padding bg-white">
+      <section className="section-padding bg-white dark:bg-gray-900">
         <div className="container-custom">
           <div className="text-center mb-12">
             <h2 className="text-3xl font-bold text-foreground mb-4">Find Us</h2>
             <p className="text-muted-foreground">Located in the heart of Surat's tech district</p>
           </div>
 
-          <div className="bg-white rounded-2xl shadow-lg overflow-hidden">
+          <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg overflow-hidden">
             <iframe
               src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d119066.54447931247!2d72.74109995307639!3d21.159340674622592!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be04e59411d1563%3A0xfe4558290938b042!2sSurat%2C%20Gujarat!5e0!3m2!1sen!2sin!4v1639472234567!5m2!1sen!2sin"
               width="100%"
@@ -327,7 +322,7 @@ export default function Contact() {
               allowFullScreen
               loading="lazy"
               referrerPolicy="no-referrer-when-downgrade"
-              title="Innovixus IT Services Location in Surat, Gujarat"
+              title="Innovixus IT Services Location in Surat, Gujarat - Google Maps"
             />
           </div>
         </div>
@@ -360,7 +355,7 @@ export default function Contact() {
                 answer: "We specialize in Node.js, Python, Golang, Docker, Kubernetes, AWS, and modern DevOps tools and practices."
               }
             ].map((faq, index) => (
-              <div key={index} className="bg-white rounded-xl p-6 shadow-sm">
+              <div key={index} className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm" data-testid={`card-faq-${index}`}>
                 <h3 className="text-lg font-semibold text-foreground mb-3">{faq.question}</h3>
                 <p className="text-muted-foreground text-sm leading-relaxed">{faq.answer}</p>
               </div>

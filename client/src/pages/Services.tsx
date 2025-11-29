@@ -21,7 +21,20 @@ import {
 } from "lucide-react";
 
 export default function Services() {
-  const services = [
+  return (
+    <>
+      <SEO 
+        title="Services | Backend Development & DevOps Solutions - Innovixus"
+        description="Professional backend development, DevOps consulting, and cloud architecture solutions tailored for startups and enterprises. Get expert technical guidance."
+        url="https://innovixus.co/services"
+        keywords="backend development, devops, cloud architecture, nodejs, python, golang, kubernetes, aws"
+      />
+      {renderContent()}
+    </>
+  );
+
+  function renderContent() {
+    const services = [
     {
       icon: <Server className="h-8 w-8 text-primary" />,
       title: "Backend Development",

@@ -30,6 +30,7 @@ export default function Blog() {
         title="Blog | Latest Tech Insights & DevOps Tutorials - Innovixus"
         description="Stay updated with the latest trends in backend development, DevOps practices, and technology insights from the Innovixus team. Expert tutorials and industry insights."
         url="https://innovixus.co/blog"
+        keywords="blog, backend development, devops, nodejs, tutorials, tech insights, cloud architecture"
       />
 
       {/* Hero Section */}
