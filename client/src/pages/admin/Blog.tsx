@@ -11,10 +11,12 @@ import { apiRequest } from "@/lib/queryClient";
 import { Link } from "wouter";
 import { ArrowLeft, Plus, Edit, Trash2 } from "lucide-react";
 import { ThemeToggle } from "@/components/ThemeToggle";
+import { HTMLEditor } from "@/components/HTMLEditor";
 
 export default function AdminBlog() {
   const [isCreating, setIsCreating] = useState(false);
-  const [editingPost, setEditingPost] = useState(null);
+  const [editingPost, setEditingPost] = useState<any>(null);
+  const [content, setContent] = useState("");
   const { toast } = useToast();
   const queryClient = useQueryClient();
 
@@ -60,14 +62,14 @@ export default function AdminBlog() {
     }
   });
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData(e.target);
     const data = {
       title: formData.get("title"),
       slug: formData.get("slug"),
       excerpt: formData.get("excerpt"),
-      content: formData.get("content"),
+      content: content,
       category: formData.get("category"),
       author: formData.get("author"),
       authorAvatar: formData.get("authorAvatar"),
@@ -80,6 +82,11 @@ export default function AdminBlog() {
     } else {
       createMutation.mutate(data);
     }
+  };
+
+  const handleEditPost = (post: any) => {
+    setEditingPost(post);
+    setContent(post.content);
   };
 
   if (isLoading) {
@@ -105,7 +112,10 @@ export default function AdminBlog() {
             </div>
             <div className="flex items-center gap-4">
               <ThemeToggle />
-              <Button onClick={() => setIsCreating(true)}>
+              <Button onClick={() => {
+                setIsCreating(true);
+                setContent("");
+              }}>
                 <Plus className="h-4 w-4 mr-2" />
                 New Post
               </Button>
@@ -182,12 +192,11 @@ export default function AdminBlog() {
                 </div>
                 
                 <div>
-                  <label className="text-sm font-medium">Content</label>
-                  <Textarea 
-                    name="content" 
-                    defaultValue={editingPost?.content || ""} 
-                    rows={10}
-                    required 
+                  <label className="text-sm font-medium mb-2 block">Content</label>
+                  <HTMLEditor 
+                    value={content}
+                    onChange={setContent}
+                    placeholder="Enter your blog post content here..."
                   />
                 </div>
                 
@@ -206,6 +215,7 @@ export default function AdminBlog() {
                   <Button type="button" variant="outline" onClick={() => {
                     setIsCreating(false);
                     setEditingPost(null);
+                    setContent("");
                   }}>
                     Cancel
                   </Button>
@@ -240,7 +250,7 @@ export default function AdminBlog() {
                     <Button 
                       variant="outline" 
                       size="sm"
-                      onClick={() => setEditingPost(post)}
+                      onClick={() => handleEditPost(post)}
                     >
                       <Edit className="h-4 w-4" />
                     </Button>

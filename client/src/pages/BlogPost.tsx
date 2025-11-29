@@ -156,10 +156,11 @@ export default function BlogPostPage() {
             )}
 
             {/* Article Content */}
-            <div className="prose prose-lg max-w-none">
-              <div className="text-muted-foreground leading-relaxed whitespace-pre-wrap">
-                {post.content}
-              </div>
+            <div className="prose prose-lg max-w-none prose-headings:text-foreground prose-p:text-foreground prose-li:text-foreground">
+              <div 
+                dangerouslySetInnerHTML={{ __html: post.content }}
+                className="text-foreground leading-relaxed"
+              />
             </div>
 
             {/* Article Footer */}
